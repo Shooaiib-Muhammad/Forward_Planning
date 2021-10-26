@@ -222,7 +222,7 @@ $CurrentDate=$Year.'-'.$Month.'-'.$Day;
 <div id="panel-7" class="panel">
                                     <div class="panel-hdr">
                                         <h2>
-                                            Kits  <span class="fw-300"><i>Receiving</i></span>
+                                Line Wise  <span class="fw-300"><i>Planning</i></span>
                                         </h2>
                                         <div class="panel-toolbar">
                                             <button class="btn btn-panel" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"></button>
@@ -240,36 +240,28 @@ $CurrentDate=$Year.'-'.$Month.'-'.$Day;
                                              
                        
                        
-     <div class="col-md-3">
-                       <label >Start Date :</label>
+     <div class="col-md-2">
+                       <label >Plane Date :</label>
                         <div class="form-group-inline">
                             
-                            <input name="date" id="date1" class="form-control" value="<?php echo $CurrentDate;?>" type="date">
+                            <input name="date" id="plan_date" class="form-control" value="<?php echo $CurrentDate;?>" type="date">
                         </div>
                     </div>
-                    <div class="col-md-3">
-                       <label >End Date</label>
-                        <div class="form-group-inline">
-                            
-                            <input name="date" id="date2" class="form-control" value="<?php echo $CurrentDate;?>"  type="date">
-                        </div>
-                    </div>
-                    </div>
-                    <br><br>
-                    <div class="row">
+                   
+                  
                      <div class="col-md-2">
                     <div class="form-group">
-                            <lable class="form-control-label" for="duration">Label Type:</lable>
+                            <lable class="form-control-label" for="duration">Select MPNo:</lable>
                             
-                            <select class="form-control" name="Type" id="Type">
-                             <option value="">Select Duration :</option>
+                            <select class="form-control mySelectMatProEdit" name="Type" id="Type">
+                             <option value="">Select MPNo :</option>
                                <?php
                                 
-                                  foreach ($labelinfor as $Key) {
+                                  foreach ($CallMPno as $Key) {
                            
                          ?>
 
-                        <option value="<?php echo $Key['ID'] ?>" ><?php echo $Key['LabelType'] ?></option>
+                        <option value="<?php echo $Key['MPID'] ?>" ><?php echo $Key['MPID'] ?></option>
                         <?php
                         }
                        
@@ -278,32 +270,69 @@ $CurrentDate=$Year.'-'.$Month.'-'.$Day;
                         </div>
                         </div>
                            <div class="col-md-2">
-                       <label >Kit Name:</label>
+                       <label >Article Code :</label>
                         <div class="form-group-inline">
                             
-                            <input name="KITName" id="Kitname" class="form-control" type="text" readonly="true">
-                             <input name="ID" id="ID" class="form-control" type="text" hidden="true" >
+                            <input name="KITName" id="Article" class="form-control" type="text" readonly="true">
+                            
+                             <input name="ID" id="CID" class="form-control" type="text" hidden="true" >
+                             <input name="ID" id="MID" class="form-control" type="text"hidden="true"  >
+                             <input name="ID" id="AID" class="form-control" type="text"  hidden="true" >
                         </div>
                     </div>
                        <div class="col-md-2">
-                       <label >Start Range :</label>
+                       <label >Size :</label>
                         <div class="form-group-inline">
                             
-                            <input name="SR" id="start_quantity" class="form-control" type="text">
+                            <input name="SR" id="Size" class="form-control" type="text">
                         </div>
-                    </div>
+                    </div> 
                        <div class="col-md-2">
-                       <label >End Range :</label>
+                       <label >Factory Code:</label>
                         <div class="form-group-inline">
                             
-                            <input name="ER" id="end_quantity" class="form-control" type="text">
+                            <input name="ER" id="factryCode" class="form-control" type="text">
                         </div>
                     </div>
-                    <div class="col-md-3">
-                       <label >Received Date :</label>
+                      <div class="col-md-2">
+                       <label >Plan Qty:</label>
                         <div class="form-group-inline">
                             
-                            <input name="date" id="Rdate" class="form-control" value="<?php echo $CurrentDate;?>" type="date">
+                            <input name="ER" id="TotalQty" class="form-control" type="text">
+                        </div>
+                    </div>
+                   <div class="col-md-2">
+                    <div class="form-group">
+                            <lable class="form-control-label" for="duration">Select Line:</lable>
+                            
+                            <select class="form-control" name="Type" id="LineID">
+                             <option value="">Select Line :</option>
+                           <?php
+                                
+                                  foreach ($GetLines as $Key) {
+                           
+                         ?>
+
+                        <option value="<?php echo $Key['LineID'] ?>" ><?php echo $Key['LineName'] ?></option>
+                        <?php
+                        }
+                       
+                  ?>
+                            </select>
+                        </div>
+                        </div>
+                        <div class="col-md-2">
+                       <label >Qty:</label>
+                        <div class="form-group-inline">
+                            
+                            <input name="ER" id="Quantity" class="form-control" type="text">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                       <label >Balance:</label>
+                        <div class="form-group-inline">
+                            
+                            <input name="ER" id="balance" class="form-control" type="text">
                         </div>
                     </div>
                      <div class="col-md-3">
@@ -318,19 +347,16 @@ $CurrentDate=$Year.'-'.$Month.'-'.$Day;
                    
   <br><br>
 <div class="row" >
-    <div class="col-md-12" id="Data" >
+    <div class="col-md-8" id="Data" >
          <div class="table-responsive-lg">
         <table class="table table-striped table-hover table-sm" id="tableExport">
-                                                        <thead>
+                                                       <thead style="background-color:black; color:white;">
                                                            
-                                                                <th>Kit Name</th>
-                                                                <th>Quantity</th>
-                                                                <th>Received Date</th>
-                                                                <th>issue Status</th>
-                                                                <th>Issuee Date</th>
-                                                                 <th>Action</th>
-                                                           
-                                                        </thead>
+                                                                <th>MP No</th>
+                                                                <th>Line Name</th>
+                                                                  <th>Plane Date</th>
+                                                                <th>Status</th> 
+                                                            </thead>
                                                        <tbody >
                     </tbody>
                     </table>
@@ -354,47 +380,61 @@ $CurrentDate=$Year.'-'.$Month.'-'.$Day;
 <script>
     
 $(document).ready(function(){
-     $("#date1").change(function(e) {
-//alert('Heloo');
-loadDate()
-     });
- $("#date2").change(function(e) {
-//alert('Heloo');
-loadDate()
-     });
+  loadData()
+$("#plan_date").change(function() {
 
+            
+            loadData()
+        });
     $("select[name=Type]").change(function() {
 
             loadtype()
-            loadDate()
+            loadBalance()
         });
         
         function loadtype(){
 //alert("Please select");
             var Type = $("select[name='Type']").val()
-            url = "<?php echo base_url("index.php/kitsReceived/json_by_machine/") ?>" + Type 
+            url = "<?php echo base_url("index.php/Linewise/json_by_machine/") ?>" + Type 
+            //alert(url);
             $.get(url, function(data){
             
                console.log(data);
 
 
-                    html = data[0].KitID
-                     html1 = data[0].ID
+                    Article = data[0].ArtCode
+                     Size = data[0].ArtSize
+                      factryCode = data[0].FactoryCode
+                       TotalQty = data[0].TotalQty
+                        CID = data[0].ClientID
+                      MID = data[0].ModelID
+                       AID = data[0].ArtID
+                          balance = data[0].Balance
                     // html += '<option value="'+element.SecID+'" >'+element.SecName+'</option>'
-                
-console.log(html);
-                $("#Kitname").val(html)
-                 $("#ID").val(html1)
+//                 alert(Article);
+//                 alert(Size);
+//                 alert(factryCode);
+//                 alert(TotalQty);
+// console.log(Article);
+// console.log(Size);
+// console.log(factryCode);
+// console.log(TotalQty);
+                $("#Article").val(Article)
+                 $("#Size").val(Size)
+                    $("#factryCode").val(factryCode)
+                       $("#TotalQty").val(TotalQty)
+                       $("#CID").val(CID)
+                    $("#MID").val(MID)
+                       $("#AID").val(AID)
+                        $("#balance").val(balance)
             })
         }
 
- function loadDate(){
+ function loadData(){
 
-var Type = $("select[name='Type']").val()
-  var date1 =  $("#date1").val()
-    var date2 = $("#date2").val()
+ let plan_date = document.getElementById('plan_date').value;
   //alert(date1);
-            url = "<?php echo base_url("index.php/kitsReceived/getData/") ?>" + date1 + "/" + date2 + "/" + Type
+            url = "<?php echo base_url("index.php/Linewise/getDataMpData/") ?>" + plan_date
 //alert(url);
  $.get(url, function(data) {
  //alert(data);
@@ -403,13 +443,13 @@ var Type = $("select[name='Type']").val()
         }
 });
 $('#enter').click(function(){
-    let start_quantity = document.getElementById('start_quantity').value;
-    let end_quantity = document.getElementById('end_quantity').value;
-    let kitid = $("#Kitname").val();
-    let labelid = $('#ID').val();
-      let RDate = $("#Rdate").val();
-  url = "<?php echo base_url('index.php/kitsReceived/insert_data/') ?>"+ start_quantity + "/" + end_quantity + "/" + kitid + "/" + labelid  + "/" + RDate 
-  //alert(url);
+    let plan_date = document.getElementById('plan_date').value;
+    let lineID = document.getElementById('LineID').value;
+    let MPNo = $("#Type").val();
+    let Qty = $('#Quantity').val();
+      //let RDate = $("#Rdate").val();
+  url = "<?php echo base_url('index.php/Linewise/insertion/') ?>"+ Qty + "/" + MPNo + "/" + lineID + "/" + plan_date
+  alert(url);
    $.get(url, function(data){
             
                console.log(data);

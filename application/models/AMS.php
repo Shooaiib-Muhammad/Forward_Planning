@@ -15,10 +15,10 @@ class AMS extends CI_Model
 
     public function loginn($username, $password)
     {
-      
-      $query = $this->db->query("SELECT        LoginName, passwd, UserSataus, UserID
-      FROM            tbl_MIS_User
-      WHERE        (LoginName = '$username') AND (passwd = '$password') ");
+      $MIS = $this->load->database('MIS', TRUE);
+                $query=$MIS->query("SELECT        LoginName, Password, Status, UserID
+      FROM            tbl_User_Logins
+      WHERE        (LoginName = '$username') AND (Password = '$password') ");
 
         if ($query->num_rows() > 0) {
             $result = $query->row();
@@ -26,10 +26,10 @@ class AMS extends CI_Model
                 'user_id' => $result->UserID,
                 'user_name' => $result->LoginName,
                 'userStus' => 1,
-                'Status' => $result->UserSataus,
+                'Status' => $result->Status,
                 
             );
-            $Status = $result->UserSataus;
+            $Status = $result->Status;
          
            //echo $Status;
            // Die;
@@ -41,7 +41,7 @@ class AMS extends CI_Model
                 if($password=='123'){
                     $this->session->set_flashdata('info', 'Please Change Your Password First');
                 }else{
-                $this->session->set_flashdata('info', 'Welcome in LSM');
+                $this->session->set_flashdata('info', 'Welcome in Planning');
                 }
 
             $this->session->set_userdata($session_data);
@@ -1153,9 +1153,36 @@ $Type='normal';
  $MIS = $this->load->database('MIS', TRUE);
  //$date = $RDate;
   $query = $MIS->query("INSERT  INTO tbl_kit_issuance
-      (PO,KitID,KitQty,IssuanceDate,Wastage,Type,Issuedby) VALUES ('$PO', '$KitsiD',$pquantity,'$issuedate', $westage,'$Type','$user_name')");;
+      (PO,KitID,KitQty,IssuanceDate,Wastage,Type,Issuedby) VALUES ('$PO', '$KitsiD',$pquantity,'$issuedate', $westage,'$Type','$user_name')");
 
             
+}
+public function Balance($MPNo){
+    
+  $MIS = $this->load->database('MIS', TRUE);
+    $query = $MIS->query("SELECT        SUM(tbl_Pro_Plan.TotalQty - isnull(View_MS_MP_Balance.Qty, 0)) AS Qty, tbl_Pro_Plan.MPID
+FROM            { oj tbl_Pro_Plan LEFT OUTER JOIN
+                         View_MS_MP_Balance ON tbl_Pro_Plan.MPID = View_MS_MP_Balance.MPNO }
+WHERE        (tbl_Pro_Plan.MPID = '$MPNo')
+GROUP BY tbl_Pro_Plan.MPID");
+return $query->result_array();
+}
+public function getAllLines(){
+    $MIS = $this->load->database('MIS', TRUE);
+    $query = $MIS->query("SELECT        LineID, LineName
+FROM            tbl_PC_AMB_Line");
+return $query->result_array();
+}
+public function MPNoinformation($MPNo){
+$MIS = $this->load->database('MIS', TRUE);
+    $query = $MIS->query("SELECT        dbo.tbl_Pro_Model.ModelName, dbo.tbl_Pro_Article.ArtCode, dbo.tbl_Pro_Plan.ArtSize, dbo.tbl_Pro_Plan.MPID, dbo.tbl_Pro_Plan.PlanDate, dbo.tbl_Pro_Plan.LastConfirmDate, dbo.tbl_Pro_Plan.FactoryCode, 
+                         dbo.tbl_Pro_Plan.TotalQty, dbo.tbl_Pro_Article.ClientID, dbo.tbl_Pro_Article.ModelID, dbo.tbl_Pro_Article.ArtID, dbo.View_MS_MP_Balance.MPNO, ISNULL(dbo.View_MS_MP_Balance.Qty, 0) AS Balance
+FROM            dbo.tbl_Pro_Article INNER JOIN
+                         dbo.tbl_Pro_Plan ON dbo.tbl_Pro_Article.ClientID = dbo.tbl_Pro_Plan.ClientID AND dbo.tbl_Pro_Article.ModelID = dbo.tbl_Pro_Plan.ModelID AND dbo.tbl_Pro_Article.ArtID = dbo.tbl_Pro_Plan.ArtID INNER JOIN
+                         dbo.tbl_Pro_Model ON dbo.tbl_Pro_Article.ClientID = dbo.tbl_Pro_Model.ClientID AND dbo.tbl_Pro_Article.ModelID = dbo.tbl_Pro_Model.ModelID LEFT OUTER JOIN
+                         dbo.View_MS_MP_Balance ON dbo.tbl_Pro_Plan.MPID = dbo.View_MS_MP_Balance.MPNO
+WHERE        (dbo.tbl_Pro_Plan.MPID = '$MPNo')");
+return $query->result_array();
 }
 public function getkitsissuance($date1,$date2){
     
@@ -1170,6 +1197,8 @@ FROM            dbo.View_Label INNER JOIN
 WHERE        (dbo.tbl_kit_issuance.Type IS NOT NULL) AND (tbl_kit_issuance.IssuanceDate BETWEEN '$date1' AND '$date2')");
 return $query->result_array();
 }
+
+
 public function updateKitsissuance($RBy,$iDate ,$RID){
     $MIS = $this->load->database('MIS', TRUE);
     $query = $MIS->query("UPDATE tbl_kit_issuance  
@@ -1182,5 +1211,37 @@ public function Deleteissuance($TID){
     $MIS = $this->load->database('MIS', TRUE);
         $query=$MIS->query("DELETE FROM tbl_kit_issuance
         WHERE TID='$TID'");
+}
+public function GetAllMPNos(){
+       $MIS = $this->load->database('MIS', TRUE);
+                         $query = $MIS->query("SELECT        dbo.tbl_Pro_Model.ModelName, dbo.tbl_Pro_Article.ArtCode, dbo.tbl_Pro_Plan.ArtSize, dbo.tbl_Pro_Plan.MPID, dbo.tbl_Pro_Plan.PlanDate, dbo.tbl_Pro_Plan.LastConfirmDate, dbo.tbl_Pro_Plan.FactoryCode, 
+                         dbo.tbl_Pro_Plan.TotalQty, dbo.tbl_Pro_Article.ClientID, dbo.tbl_Pro_Article.ModelID, dbo.tbl_Pro_Article.ArtID
+FROM            dbo.tbl_Pro_Article INNER JOIN
+                         dbo.tbl_Pro_Plan ON dbo.tbl_Pro_Article.ClientID = dbo.tbl_Pro_Plan.ClientID AND dbo.tbl_Pro_Article.ModelID = dbo.tbl_Pro_Plan.ModelID AND dbo.tbl_Pro_Article.ArtID = dbo.tbl_Pro_Plan.ArtID INNER JOIN
+                         dbo.tbl_Pro_Model ON dbo.tbl_Pro_Article.ClientID = dbo.tbl_Pro_Model.ClientID AND dbo.tbl_Pro_Article.ModelID = dbo.tbl_Pro_Model.ModelID
+WHERE        (dbo.tbl_Pro_Plan.FactoryCode = 'B34005') AND (dbo.tbl_Pro_Plan.PlanDate > CONVERT(DATETIME, '2021-08-01 00:00:00', 102))");
+return $query->result_array();
+}
+public function insertion($Qty,$MPNo,$lineID,$plan_date){
+    $Month=date('m');
+$Year=date('Y');
+$Day=date('d');
+$CurrentDate=$Year.'-'.$Month.'-'.$Day;
+// Echo $plan_date;
+// die;
+      $UserID =  $this->session->userdata('user_id');
+ $MIS = $this->load->database('MIS', TRUE);
+ //$date = $RDate;
+  $query = $MIS->query("INSERT INTO tbl_MS_MP_Reserved
+                         (LineID, MPNO, PlanDate,  Ipaddress, Entrydate, Qty,UserID)
+VALUES        ($lineID, $MPNo, '$plan_date', null, null, $Qty,$UserID)");
+}
+public function getDataMpData($plan_date){
+         $MIS = $this->load->database('MIS', TRUE);
+                         $query = $MIS->query("SELECT        dbo.View_MPNo_Wise_Details.MPID, CONVERT(varchar, dbo.tbl_MS_MP_Reserved.PlanDate, 103) AS PlanDate, dbo.tbl_PC_AMB_Line.LineName, dbo.tbl_MS_MP_Reserved.Qty
+FROM            dbo.tbl_MS_MP_Reserved INNER JOIN
+                         dbo.tbl_PC_AMB_Line ON dbo.tbl_MS_MP_Reserved.LineID = dbo.tbl_PC_AMB_Line.LineID INNER JOIN
+                         dbo.View_MPNo_Wise_Details ON dbo.tbl_MS_MP_Reserved.MPNO = dbo.View_MPNo_Wise_Details.MPID AND (tbl_MS_MP_Reserved.PlanDate = '$plan_date')");
+return $query->result_array();
 }
 }

@@ -51,75 +51,27 @@ console.log("IssueDte",IssueDte)
         <table class="table table-striped table-hover table-sm" id="tableExport">
                                                         <thead style="background-color:black; color:white;">
                                                            
-                                                                <th>Kit Name</th>
+                                                                <th>MP No</th>
+                                                                <th>Line Name</th>
+                                                                  <th>Plane Date</th>
                                                                 <th>Quantity</th>
-                                                                 <th>Received Date</th>
-                                                                <th>issue Status</th>
-                                                                <th>Issuee Date</th>
-                                                                 
-                                                                 <th>Action</th>
-                                                           
-                                                        </thead>
+                                                                <th>Status</th> 
+                                                               </thead>
                                                        <tbody >
                                                         <?php
-foreach ($received as $keys){
- $Status=$keys['IssueStatus'];
- $RecID=$keys['RecID'];
+foreach ($getMPData as $keys){
+//  $Status=$keys['IssueStatus'];
+//  $RecID=$keys['RecID'];
  ?> 
 
  <tr>    
    
-                                                            <td><?php Echo $keys['SerialNo'];?>
-                                                               
-                                                                
-                                                            </td>
-                                                             <td><?php Echo $keys['Qty'];?></td>
-                                                              <td><?php Echo $keys['TranDate'];?></td>
-                                                             <input type="text" name="RID" id="RID<?php echo $RecID;?>" value="<?php echo $RecID;?>" hidden>
-                                                              <input type="text" name="RDate" id="RDate<?php echo $RecID;?>" value="<?php echo $keys['TranDate'];?>" hidden>
-                                                             <input type="text" name="TID" id="TID<?php echo $RecID;?>" value="<?php echo $keys['ID'];?>" hidden>
-                                                             <td><?php if($Status==1){ ?>
-                                                            <div class="custom-control custom-switch">
-                                                                <input type="checkbox" name="onoffswitch" class="custom-control-input" id="customSwitch<?php Echo $RecID ?>" checked>
-                                                                <label class="custom-control-label" for="customSwitch<?php Echo $RecID ?>"></label>
-                                                            </div>
-                                                            <?php
-                                                            }else{
-                                                             ?>
-                                                                <div class="custom-control custom-switch">
-                                                                <input type="checkbox" name="onoffswitch" class="custom-control-input" id="customSwitch<?php Echo $RecID ?>" >
-                                                                <label class="custom-control-label" for="customSwitch<?php Echo $RecID ?>"></label>
-                                                            </div>
-                                                             <?php
-                                                            }?>
-                                                           </td>
-                                                             <td>
-                                                              <?php
-                                                              $issueDate=$keys['IssueDate'];
-                                                              if($issueDate){
-                                                               ?>
-                                                               <?php Echo $keys['IssueDate'];?>
-                                                               <?php
-                                                              }else{
-                                                               ?>
-                                                               <input type="Date" class="form-control" name="IDate" id="iDate<?php echo $RecID;?>" >
-                                                               <?php
-                                                              }
-                                                              ?>
+                                                            <td><?php Echo $keys['MPID'];?> </td>
+                                                                <td><?php Echo $keys['LineName'];?> </td>
+                                                                    <td><?php Echo $keys['PlanDate'];?> </td>
+                                                                        <td><?php Echo $keys['Qty'];?> </td>
+                                                                        <td><button class="btn btn-primary btn-sm">undo </button></td>
                                                              
-                                                             </td>
-                                                             
-                                                               <td>
-                                                                 <?php if($Status==1){ ?>
-                                                                <button type="button"  class="btn btn-primary btn-sm updatebtn" id="btn.<?php echo $RecID;?>" disabled="disabled">Done</button>
-                                                              <?php
-                                                                 }else{
-                                                                   ?>
-                                                                   <button type="button"  class="btn btn-info btn-sm updatebtn" id="btn.<?php echo $RecID;?>" >issued</button>
-                                                                   <?php
-                                                                 }
-                                                              ?>
-                                                              </td>
                                                                
                                                                                               
          </tr>     
