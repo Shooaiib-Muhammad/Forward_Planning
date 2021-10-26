@@ -90,7 +90,7 @@ if(!($this->session->has_userdata('user_id'))){
                     <!-- the #js-page-content id is needed for some plugins to initialize -->
                     <main id="js-page-content" role="main" class="page-content">
                     <?php
-      if($this->session->flashdata('Proinfo')){ 
+      if($this->session->flashdata('info')){ 
     
     
       ?>
@@ -99,7 +99,7 @@ if(!($this->session->has_userdata('user_id'))){
                       <button class="close" data-dismiss="alert">
                         <span>&times;</span>
                       </button>
-                      <?php echo $this->session->flashdata('Proinfo');?>
+                      <?php echo $this->session->flashdata('info');?>
                     </div>
                   </div>
                   <?php
@@ -449,9 +449,9 @@ $('#enter').click(function(){
     let Qty = $('#Quantity').val();
       //let RDate = $("#Rdate").val();
   url = "<?php echo base_url('index.php/Linewise/insertion/') ?>"+ Qty + "/" + MPNo + "/" + lineID + "/" + plan_date
-  alert(url);
+  //alert(url);
    $.get(url, function(data){
-            
+          
                console.log(data);
 location.reload();
             })

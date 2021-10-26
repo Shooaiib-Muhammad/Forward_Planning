@@ -61,7 +61,7 @@ console.log("IssueDte",IssueDte)
                                                         <?php
 foreach ($getMPData as $keys){
 //  $Status=$keys['IssueStatus'];
-//  $RecID=$keys['RecID'];
+$RecID=$keys['TID'];
  ?> 
 
  <tr>    
@@ -70,7 +70,11 @@ foreach ($getMPData as $keys){
                                                                 <td><?php Echo $keys['LineName'];?> </td>
                                                                     <td><?php Echo $keys['PlanDate'];?> </td>
                                                                         <td><?php Echo $keys['Qty'];?> </td>
-                                                                        <td><button class="btn btn-primary btn-sm">undo </button></td>
+                                                                        <td>
+                                                                          <a href='<?php echo base_url("index.php/LineWise/DeletedRecord/$RecID") ?>'>
+                                                                          
+                                                                          
+                                                                          <button class="btn btn-danger btn-xs">Undo </button> </a></td>
                                                              
                                                                
                                                                                               

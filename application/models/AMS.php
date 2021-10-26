@@ -1238,10 +1238,22 @@ VALUES        ($lineID, $MPNo, '$plan_date', null, null, $Qty,$UserID)");
 }
 public function getDataMpData($plan_date){
          $MIS = $this->load->database('MIS', TRUE);
-                         $query = $MIS->query("SELECT        dbo.View_MPNo_Wise_Details.MPID, CONVERT(varchar, dbo.tbl_MS_MP_Reserved.PlanDate, 103) AS PlanDate, dbo.tbl_PC_AMB_Line.LineName, dbo.tbl_MS_MP_Reserved.Qty
+                         $query = $MIS->query("SELECT        dbo.View_MPNo_Wise_Details.MPID, CONVERT(varchar, dbo.tbl_MS_MP_Reserved.PlanDate, 103) AS PlanDate, dbo.tbl_PC_AMB_Line.LineName, dbo.tbl_MS_MP_Reserved.Qty, dbo.tbl_MS_MP_Reserved.TID
 FROM            dbo.tbl_MS_MP_Reserved INNER JOIN
                          dbo.tbl_PC_AMB_Line ON dbo.tbl_MS_MP_Reserved.LineID = dbo.tbl_PC_AMB_Line.LineID INNER JOIN
                          dbo.View_MPNo_Wise_Details ON dbo.tbl_MS_MP_Reserved.MPNO = dbo.View_MPNo_Wise_Details.MPID AND (tbl_MS_MP_Reserved.PlanDate = '$plan_date')");
 return $query->result_array();
+}
+public function deleteRecord($id){
+$MIS = $this->load->database('MIS', TRUE);
+        $query=$MIS->query("DELETE FROM tbl_MS_MP_Reserved
+        WHERE TID='$id'");
+       if ($query) {
+        $this->session->set_flashdata('info', 'Record Has Been Deleted Successfully');
+        redirect('Linewise');
+    } else {
+        $this->session->set_flashdata('danger', 'Record Has not Been Deleted');
+        redirect('Linewise');
+    }
 }
 }

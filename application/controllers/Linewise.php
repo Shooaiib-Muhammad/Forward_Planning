@@ -198,4 +198,8 @@ public function json_by_machine($Type){
     // print_r($data['getMPData']);
         $this->load->view('Data',$data);
   }
+  public function DeletedRecord($TID){
+	$Id = $TID;
+		$this->ID->deleteRecord($Id);	
+  }
 }
