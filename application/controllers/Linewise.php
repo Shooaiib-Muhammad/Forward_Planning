@@ -202,4 +202,13 @@ public function json_by_machine($Type){
 	$Id = $TID;
 		$this->ID->deleteRecord($Id);	
   }
+  public function getMpbalance($MpNo){
+$data = $this->ID->getMpbalance($MpNo);
+      
+       
+        return $this->output
+        ->set_content_type('application/json')
+        ->set_status_header(200)
+        ->set_output(json_encode($data));
+  }
 }

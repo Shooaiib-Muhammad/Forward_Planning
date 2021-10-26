@@ -23,7 +23,7 @@ date_default_timezone_set('Asia/Karachi');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'Http://localhost/Planning';
+$config['base_url'] = 'Http://192.168.15.3:2000/Planning';
 //$config['base_url'] = 'Http://192.168.10.3:2000/asset';
 
 /*

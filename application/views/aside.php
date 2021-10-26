@@ -49,7 +49,7 @@
                                             <span class="nav-link-text" data-i18n="nav.application_intel_introduction">Assets Catagory</span>
                                         </a>
                                     </li> -->
-                                <li>
+                                <!-- <li>
                                         <a href="<?php echo base_url('')?>Kitsissuance" title="Introduction" data-filter-tags="application intel introduction">
                                             <span class="nav-link-text" data-i18n="nav.application_intel_introduction">Line Wise Issuance</span>
                                         </a>
@@ -58,7 +58,7 @@
                                         <a href="<?php echo base_url('')?>Kitsissuance" title="Introduction" data-filter-tags="application intel introduction">
                                             <span class="nav-link-text" data-i18n="nav.application_intel_introduction">Line Wise Receiving</span>
                                         </a>
-                                    </li>
+                                    </li> -->
                                    
                                 </ul>
                             </li>

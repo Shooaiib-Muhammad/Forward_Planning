@@ -386,12 +386,24 @@ $("#plan_date").change(function() {
             
             loadData()
         });
+     
     $("select[name=Type]").change(function() {
 
             loadtype()
             loadBalance()
         });
-        
+        function loadBalance(){
+             var MPno = $("select[name='Type']").val()
+              var LineID = $("#LineID").val()
+            url = "<?php echo base_url("index.php/Linewise/getMpbalance/") ?>" + MPno 
+            //alert(url);
+            $.get(url, function(data){
+                          balance = data[0].Qty
+                           //alert(balance);
+                           $("#balance").val(balance)
+        })
+        }
+
         function loadtype(){
 //alert("Please select");
             var Type = $("select[name='Type']").val()
@@ -447,7 +459,12 @@ $('#enter').click(function(){
     let lineID = document.getElementById('LineID').value;
     let MPNo = $("#Type").val();
     let Qty = $('#Quantity').val();
-      //let RDate = $("#Rdate").val();
+    let balance = $("#balance").val();
+    //alert(balance);
+    // alert(Qty);
+if(Qty > balance){
+alert("Quantity is Greater the Balance");
+}else{
   url = "<?php echo base_url('index.php/Linewise/insertion/') ?>"+ Qty + "/" + MPNo + "/" + lineID + "/" + plan_date
   //alert(url);
    $.get(url, function(data){
@@ -455,6 +472,9 @@ $('#enter').click(function(){
                console.log(data);
 location.reload();
             })
+}
+
+
   });
 
 

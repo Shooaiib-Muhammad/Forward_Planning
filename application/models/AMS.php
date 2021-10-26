@@ -1256,4 +1256,14 @@ $MIS = $this->load->database('MIS', TRUE);
         redirect('Linewise');
     }
 }
+public function getMpbalance($MpNo){
+    
+$MIS = $this->load->database('MIS', TRUE);
+    $query = $MIS->query("SELECT        SUM(tbl_Pro_Plan.TotalQty - isnull(View_MS_MP_Balance.Qty, 0)) AS Qty, tbl_Pro_Plan.MPID
+FROM            { oj tbl_Pro_Plan LEFT OUTER JOIN
+                         View_MS_MP_Balance ON tbl_Pro_Plan.MPID = View_MS_MP_Balance.MPNO }
+WHERE        (tbl_Pro_Plan.MPID = $MpNo)
+GROUP BY tbl_Pro_Plan.MPID");
+return $query->result_array();
+}
 }
